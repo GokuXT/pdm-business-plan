@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDM Dealership Business Plan | Los Santos</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles for Chart Containers and Specific Layouts -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        /* Vibrant Palette: "Neon Nightlife" - Deep Blue, Electric Cyan, Hot Magenta */
+        /* Primary: #1e3a8a (Dark Blue) */
+        /* Accent 1: #06b6d4 (Cyan) */
+        /* Accent 2: #ec4899 (Pink/Magenta) */
+        /* Text on Dark: #f3f4f6 */
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        /* Timeline Styles */
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 4px solid #06b6d4;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background-color: #ec4899;
+            border-radius: 50%;
+        }
+
+        /* Hierarchy Pyramid */
+        .hierarchy-level {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .role-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-top: 4px solid #1e3a8a;
+            min-width: 120px;
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <!-- Header / Brand Identity -->
+    <header class="bg-slate-900 text-white py-12 px-4 shadow-lg border-b-8 border-cyan-500">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500">
+                PREMIUM DELUXE MOTORSPORT
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 font-light tracking-wide uppercase">
+                Driving Dreams in Los Santos
+            </p>
+            <div class="mt-8 flex justify-center gap-4">
+                <span class="px-4 py-2 bg-slate-800 rounded-full border border-slate-600 text-sm">Est. 2025</span>
+                <span class="px-4 py-2 bg-slate-800 rounded-full border border-slate-600 text-sm">Pillbox Hill</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Substitute (Anchor Links) -->
+    <nav class="bg-white shadow sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 overflow-x-auto whitespace-nowrap">
+            <div class="flex justify-center gap-6 text-sm font-semibold text-slate-700">
+                <a href="#vision" class="hover:text-cyan-600 transition">Vision & Brand</a>
+                <a href="#market" class="hover:text-cyan-600 transition">Market Strategy</a>
+                <a href="#finance" class="hover:text-cyan-600 transition">Financials</a>
+                <a href="#staff" class="hover:text-cyan-600 transition">Staffing</a>
+                <a href="#events" class="hover:text-cyan-600 transition">Events</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-12 space-y-16">
+
+        <!-- SECTION 1: VISION & BRAND IDENTITY -->
+        <section id="vision" class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="text-3xl">💎</span>
+                    <h2 class="text-3xl font-bold text-slate-800">Brand Identity & Vision</h2>
+                </div>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Premium Deluxe Motorsport (PDM) isn't just a place to buy a car; it's the gateway to the Los Santos lifestyle. Our brand is built on <strong>Exclusivity, Trust, and Performance</strong>. We move away from the "used car salesman" trope to a high-end concierge service.
+                </p>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-pink-500">
+                    <h3 class="font-bold text-lg mb-2">Social Media Strategy (Bleeter & LifeInvader)</h3>
+                    <ul class="list-disc list-inside space-y-2 text-sm text-gray-600">
+                        <li><strong>#PDMDreams:</strong> Customer showcases posing with new purchases.</li>
+                        <li><strong>Flash Sales:</strong> "Midnight Madness" limited-time discounts announced exclusively on Bleeter.</li>
+                        <li><strong>Video Tours:</strong> High-production showcases of new import stock.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-slate-800 p-8 rounded-xl shadow-2xl text-center">
+                <h3 class="text-white text-xl font-bold mb-6">Core Values Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="valuesChart"></canvas>
+                </div>
+                <p class="text-gray-400 text-xs mt-4">Weighted importance of operational pillars.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 2: MARKET STRATEGY -->
+        <section id="market">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4 border-b pb-2 border-gray-300">Market Strategy & Analysis</h2>
+                <p class="text-gray-600 max-w-3xl">
+                    The Los Santos vehicle market is saturated with private sellers and generic lots. PDM differentiates itself through a curated inventory mix and specific targeting of emerging wealth classes in the city. We don't just sell Supers; we dominate the entry-level sport and luxury SUV markets.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Market Share Chart -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-bold text-slate-700 mb-4">Target Market Inventory Mix</h3>
+                    <div class="chart-container">
+                        <canvas id="marketMixChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>Strategy:</strong> While Supercars draw attention, the volume sales come from Sports and SUVs. We maintain a 40% stock in high-turnover Sports vehicles to ensure steady cash flow while keeping 20% reserved for high-ticket Supercars.
+                    </p>
+                </div>
+
+                <!-- Competitor Comparison (Radar) -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-bold text-slate-700 mb-4">PDM vs. Competitors (SWOT Metric)</h3>
+                    <div class="chart-container">
+                        <canvas id="competitorChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-500">
+                        <strong>The Edge:</strong> Competitors often focus solely on price. PDM leads in <em>Customer Experience</em> and <em>Aftercare</em>, offering free first-time repairs and customization consultations, justifying a premium price point.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: FINANCIALS -->
+        <section id="finance" class="bg-slate-900 -mx-4 px-4 py-12 md:rounded-xl md:mx-0">
+            <h2 class="text-3xl font-bold text-white mb-8 text-center">Financial Roadmap & Investment</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Starting Capital -->
+                <div class="lg:col-span-1 bg-slate-800 p-6 rounded-lg shadow-lg border border-slate-700">
+                    <h3 class="text-cyan-400 font-bold text-xl mb-4">Startup Capital Allocation</h3>
+                    <p class="text-gray-300 text-sm mb-4">
+                        Requesting an initial investment of <strong>$5,000,000</strong> (City Grant/Investor).
+                    </p>
+                    <div class="chart-container h-64">
+                        <canvas id="capitalChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Revenue Projections -->
+                <div class="lg:col-span-2 bg-slate-800 p-6 rounded-lg shadow-lg border border-slate-700">
+                    <div class="flex justify-between items-end mb-4">
+                        <h3 class="text-pink-500 font-bold text-xl">6-Month Revenue Projection</h3>
+                        <span class="text-xs text-gray-400">Values in Millions (GTA$)</span>
+                    </div>
+                    <div class="chart-container w-full">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                    <p class="text-gray-300 text-sm mt-4">
+                        <strong>Analysis:</strong> We project a slow start in Month 1 due to stock acquisition. By Month 3, with the launch of the "Summer Speed" event, revenue stabilizes. Profit margins are reinvested 60% back into the business, with 40% distributed to owners/investors.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Co-Owner Agreement -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                 <div class="bg-slate-700 p-4 rounded border-l-4 border-cyan-500">
+                    <h4 class="text-white font-bold">Ownership Structure</h4>
+                    <p class="text-gray-300 text-sm mt-1">51% Primary Owner (Managing Director) | 49% Silent Investor/Co-Owner. Decisions requiring >$500k spend require dual signatures.</p>
+                 </div>
+                 <div class="bg-slate-700 p-4 rounded border-l-4 border-pink-500">
+                    <h4 class="text-white font-bold">Profit Distribution</h4>
+                    <p class="text-gray-300 text-sm mt-1">Net profits calculated monthly. 20% to Reserve Fund (Rainy Day), remaining 80% split according to equity share.</p>
+                 </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: STAFFING & HIERARCHY -->
+        <section id="staff">
+            <h2 class="text-3xl font-bold text-slate-800 mb-8">Staffing & Hierarchy</h2>
+            
+            <!-- Hierarchy Visualization -->
+            <div class="bg-white p-8 rounded-lg shadow-md mb-8 overflow-x-auto">
+                <h3 class="text-center font-bold text-gray-500 mb-6 uppercase tracking-widest">Organizational Structure</h3>
+                
+                <div class="flex flex-col items-center gap-8 min-w-[600px]">
+                    <!-- Level 1 -->
+                    <div class="hierarchy-level">
+                        <div class="role-card w-48 border-t-purple-600 bg-purple-50">
+                            <div class="font-bold text-purple-900">Owner / CEO</div>
+                            <div class="text-xs text-gray-500">Strategic Direction</div>
+                        </div>
+                    </div>
+                    <!-- Level 2 -->
+                    <div class="hierarchy-level">
+                        <div class="role-card w-40 border-t-blue-600">
+                            <div class="font-bold text-blue-900">General Manager</div>
+                            <div class="text-xs text-gray-500">Daily Ops & Finance</div>
+                        </div>
+                        <div class="role-card w-40 border-t-blue-600">
+                            <div class="font-bold text-blue-900">Sales Director</div>
+                            <div class="text-xs text-gray-500">Team Lead & Training</div>
+                        </div>
+                    </div>
+                    <!-- Level 3 -->
+                    <div class="hierarchy-level">
+                        <div class="role-card w-32 border-t-cyan-500">
+                            <div class="font-bold text-gray-800">Senior Sales</div>
+                        </div>
+                        <div class="role-card w-32 border-t-cyan-500">
+                            <div class="font-bold text-gray-800">Sales Rep</div>
+                        </div>
+                        <div class="role-card w-32 border-t-cyan-500">
+                            <div class="font-bold text-gray-800">Mechanic Liaison</div>
+                        </div>
+                    </div>
+                     <!-- Level 4 -->
+                     <div class="hierarchy-level">
+                        <div class="role-card w-64 border-t-gray-400 bg-gray-50">
+                            <div class="font-bold text-gray-600">Trainees / Interns</div>
+                            <div class="text-xs text-gray-500">Probationary Period (2 Weeks)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Commission Structure -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="prose text-gray-600">
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Compensation & Training</h3>
+                    <p class="mb-4">
+                        We believe in rewarding performance. Base salary is minimal to encourage active selling, but commissions are aggressive.
+                    </p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2">✔</span>
+                            <span><strong>Training:</strong> All staff undergo a "Shadow Phase" (Ride-alongs) and a "Mock Sale" exam before accessing the catalog.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-500 mr-2">✔</span>
+                            <span><strong>Bonuses:</strong> "Employee of the Month" gets a custom vehicle lease for 30 days.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="font-bold text-center mb-4 text-sm text-gray-500">Projected Earnings Per Sale (Commission)</h4>
+                    <div class="chart-container">
+                        <canvas id="commissionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: EVENTS & MANAGEMENT -->
+        <section id="events" class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            
+            <!-- Event Roadmap -->
+            <div>
+                <h2 class="text-3xl font-bold text-slate-800 mb-6">Event Roadmap</h2>
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="timeline-item">
+                        <h4 class="font-bold text-lg text-slate-800">Week 1: The Grand Opening</h4>
+                        <p class="text-sm text-gray-600">Ribbon cutting with the Mayor. 10% off all Compacts and Sedans. DJ set at the dealership lot.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4 class="font-bold text-lg text-slate-800">Month 1: "Tuner Showcase" Car Meet</h4>
+                        <p class="text-sm text-gray-600">Partnering with Benny's Motorworks. Prize for best customization. Brings traffic to the lot.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4 class="font-bold text-lg text-slate-800">Month 2: High-Stakes Auction</h4>
+                        <p class="text-sm text-gray-600">Auctioning 3 exclusive 1-of-1 Imports. Black tie event. Entry fee goes to EMS charity.</p>
+                    </div>
+                    <div class="timeline-item border-l-gray-300">
+                        <h4 class="font-bold text-lg text-slate-800">Quarterly: The Great Los Santos Race</h4>
+                        <p class="text-sm text-gray-600">Sponsored rally race around the island. PDM provides safety cars and prize money.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Management Style -->
+            <div>
+                <h2 class="text-3xl font-bold text-slate-800 mb-6">Management Philosophy</h2>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="bg-cyan-50 p-6 rounded-lg border-l-4 border-cyan-500">
+                        <h3 class="font-bold text-cyan-900">Lead by Example</h3>
+                        <p class="text-sm text-cyan-800 mt-2">
+                            Management will be on the floor selling alongside staff. We do not sit in offices all day. This boosts morale and keeps leadership grounded in the reality of the market.
+                        </p>
+                    </div>
+                    <div class="bg-pink-50 p-6 rounded-lg border-l-4 border-pink-500">
+                        <h3 class="font-bold text-pink-900">Conflict Resolution</h3>
+                        <p class="text-sm text-pink-800 mt-2">
+                            Zero tolerance for toxicity. Internal disputes are handled via mediation. Customer disputes are handled with "The Customer is Key" mindset, but staff abuse is not tolerated.
+                        </p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg border-l-4 border-slate-700">
+                        <h3 class="font-bold text-slate-900">Strict RP Adherence</h3>
+                        <p class="text-sm text-slate-700 mt-2">
+                            All business operations, from invoices to test drives, must maintain high-quality immersion. No "OOC" (Out of Character) talk on the showroom floor.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-400 py-12 border-t mt-12">
+            <p>© 2025 Premium Deluxe Motorsport. All Rights Reserved. Los Santos Business License #8821A.</p>
+        </footer>
+
+    </main>
+
+    <!-- Chart Logic -->
+    <script>
+        // Common Chart Config
+        Chart.defaults.font.family = "'Roboto', sans-serif";
+        Chart.defaults.color = '#4b5563';
+        
+        const tooltipPlugin = {
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        // 1. Core Values Chart (Radar)
+        const ctxValues = document.getElementById('valuesChart').getContext('2d');
+        new Chart(ctxValues, {
+            type: 'radar',
+            data: {
+                labels: ['Customer Service', 'Exclusive Stock', 'Community Events', 'Employee Welfare', 'Profit Margins'],
+                datasets: [{
+                    label: 'Focus Priority',
+                    data: [95, 80, 70, 85, 65],
+                    backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                    borderColor: '#06b6d4',
+                    pointBackgroundColor: '#ec4899',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        pointLabels: { color: '#e5e7eb', font: { size: 12 } },
+                        ticks: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    ...tooltipPlugin
+                }
+            }
+        });
+
+        // 2. Market Mix (Donut)
+        const ctxMarket = document.getElementById('marketMixChart').getContext('2d');
+        new Chart(ctxMarket, {
+            type: 'doughnut',
+            data: {
+                labels: ['Sports & Tuners (High Volume)', 'SUVs & Luxury (Daily Drivers)', 'Supercars (High Margin)', 'Compacts (Entry Level)', 'Motorcycles'],
+                datasets: [{
+                    data: [40, 25, 20, 10, 5],
+                    backgroundColor: ['#06b6d4', '#3b82f6', '#ec4899', '#94a3b8', '#6366f1'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                cutout: '60%',
+                plugins: {
+                    legend: { position: 'right' },
+                    ...tooltipPlugin
+                }
+            }
+        });
+
+        // 3. Competitor Comparison (Bar)
+        const ctxComp = document.getElementById('competitorChart').getContext('2d');
+        new Chart(ctxComp, {
+            type: 'bar',
+            data: {
+                labels: ['Price Competitiveness', 'Stock Variety', 'Customer Service', 'Aftercare Support', 'Brand Prestige'],
+                datasets: [
+                    {
+                        label: 'PDM',
+                        data: [7, 9, 10, 10, 9],
+                        backgroundColor: '#ec4899'
+                    },
+                    {
+                        label: 'Generic Used Lot',
+                        data: [9, 5, 4, 2, 3],
+                        backgroundColor: '#94a3b8'
+                    }
+                ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, max: 10 }
+                },
+                plugins: {
+                    ...tooltipPlugin
+                }
+            }
+        });
+
+        // 4. Capital Allocation (Pie)
+        const ctxCapital = document.getElementById('capitalChart').getContext('2d');
+        new Chart(ctxCapital, {
+            type: 'pie',
+            data: {
+                labels: ['Initial Stock Purchase', 'Showroom Renovation', 'Marketing & Events', 'Operational Reserve'],
+                datasets: [{
+                    data: [60, 20, 10, 10],
+                    backgroundColor: ['#1e3a8a', '#06b6d4', '#ec4899', '#f59e0b'],
+                    borderWidth: 1,
+                    borderColor: '#1f2937'
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#d1d5db' } },
+                    ...tooltipPlugin
+                }
+            }
+        });
+
+        // 5. Revenue Projection (Line)
+        const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctxRevenue, {
+            type: 'line',
+            data: {
+                labels: ['Month 1 (Launch)', 'Month 2', 'Month 3 (Summer Event)', 'Month 4', 'Month 5', 'Month 6'],
+                datasets: [{
+                    label: 'Gross Revenue',
+                    data: [1.2, 1.8, 3.5, 3.2, 3.8, 4.5],
+                    borderColor: '#06b6d4',
+                    backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                },
+                {
+                    label: 'Net Profit',
+                    data: [0.2, 0.5, 1.2, 1.0, 1.4, 1.9],
+                    borderColor: '#ec4899',
+                    borderDash: [5, 5],
+                    fill: false,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        ticks: { color: '#d1d5db' }
+                    },
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        ticks: { color: '#d1d5db' }
+                    }
+                },
+                plugins: {
+                    legend: { labels: { color: '#d1d5db' } },
+                    ...tooltipPlugin
+                }
+            }
+        });
+
+        // 6. Commission Structure (Bar)
+        const ctxComm = document.getElementById('commissionChart').getContext('2d');
+        new Chart(ctxComm, {
+            type: 'bar',
+            data: {
+                labels: ['Compact (Low End)', 'Sedan/SUV (Mid)', 'Sports (High Vol)', 'Super (Luxury)', 'Exclusive (Import)'],
+                datasets: [{
+                    label: 'Employee Commission ($)',
+                    data: [500, 1200, 3500, 8000, 15000],
+                    backgroundColor: [
+                        '#94a3b8',
+                        '#64748b',
+                        '#06b6d4',
+                        '#3b82f6',
+                        '#ec4899'
+                    ],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    ...tooltipPlugin
+                }
+            }
+        });
+    </script>
+</body>
+</html>
