@@ -1,4 +1,4 @@
-# **Premium Deluxe Motorsport (PDM) \- Business Plan Infographic**
+# **Premium Deluxe Motorsport (PDM) \- Business Plan**
 
 This project is a single-page Interactive Business Plan for the Premium Deluxe Motorsport (PDM) dealership, designed for a FiveM Roleplay environment.
 
