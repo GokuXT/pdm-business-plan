@@ -19,7 +19,7 @@ The business plan is presented as a modern, responsive web infographic. It visua
 If you have deployed this to GitHub Pages:
 
 1. Go to Settings \> Pages in your repository.  
-2. Click the link provided (e.g., https://yourusername.github.io/pdm-business-plan/).
+2. Click the link provided (e.g., https://gokuxt.github.io/pdm-business-plan/).
 
 ### **Option 2: Run Locally**
 
